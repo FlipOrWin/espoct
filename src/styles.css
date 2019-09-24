@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* based on angular-toastr css https://github.com/Foxandxss/angular-toastr/blob/cb508fe6801d6b288d3afc525bb40fee1b101650/dist/angular-toastr.css */
+
+/*Position*/
+  
+  
+  /* toast styles */
+  
+  /*Additional properties for button version
+   iOS requires the button element instead of an anchor tag.
+   If you want the anchor version, it requires `href="#"`.*/
+  
+  
+   @import '~ngx-toastr/toastr';
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/daygrid/main.css';
+@import "../node_modules/angular-calendar/css/angular-calendar.css";

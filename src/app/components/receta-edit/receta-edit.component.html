@@ -1,0 +1,14 @@
+<h2> Editar Receta</h2>
+<div >
+  <form #RecetaNew="ngForm" (ngSubmit)="onSubmit(recetaNew)" class="col-md-8" *ngIf="identity.role != 'paciente'">
+
+    <p>
+      <label for="descripcion">Descripción Sintomas Paciente</label>
+      <textarea class="form-control" name="descripcion" #descripcion="ngModel" [(ngModel)]="receta.descripcion">
+      </textarea>
+    </p>
+
+    <input type="submit" value="Guardar" class="btn btn-success">
+  </form>
+  <hr>
+</div>

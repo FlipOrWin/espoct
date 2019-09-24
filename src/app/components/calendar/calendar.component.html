@@ -1,0 +1,11 @@
+<ng-container *ngIf="identity.role == 'doctor'">
+ 
+<full-calendar
+defaultView="dayGridMonth"
+[plugins]="calendarPlugins"
+[weekends]="true"
+
+[events]=citas
+></full-calendar> 
+</ng-container>
+ 

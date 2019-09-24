@@ -1,0 +1,169 @@
+<h2 *ngIf="identity.role != 'paciente'">Agendar Cita</h2> 
+
+<form #citaNew="ngForm" (ngSubmit)="onSubmit(citaNew)" class="col-md-5" *ngIf="identity.role != 'paciente'">
+  
+  <p>
+    <label for="status">status</label>
+    <select class="form-control" name="status" #status="ngModel" [(ngModel)]="cita.status">
+      <option value="pendiente"><p >Pendiente</p></option>
+      <option value="aprobada"><p >Aprobada</p></option>
+      <option value="cancelada"><p >Cancelada</p></option>
+    </select>
+  </p>
+  
+  <input type="submit" value="Guardar" class="btn btn-success">
+  <br>
+  <hr>
+</form>
+
+    <form #RecetaNew="ngForm" (ngSubmit)="onSubmitR(recetaNew)" class="col-md-8" *ngIf="identity.role != 'paciente'">
+    <h3>Crear Receta</h3>
+    <p>
+      <label for="citad">Fecha</label>
+      <select class="form-control" name="citad" #citad="ngModel" [(ngModel)]="receta.citad">
+
+          <option selected value="{{cita.id}}"><p >{{cita.start}}</p></option>
+
+      </select>
+    </p>
+
+    <p>
+      <label for="userdoc">Doctor</label>
+      <select class="form-control" name="userdoc" #userdoc="ngModel" [(ngModel)]="receta.userdoc">
+        <ng-container  *ngFor="let user of users">
+            <option selected *ngIf="user.id == cita.userdoc"  value="{{user.id}}"><p >{{user.name}} {{user.surname}}</p></option>
+        </ng-container >
+      </select>
+    </p>
+
+    <p>
+      <label for="userpac">Paciente</label>
+      <select class="form-control" name="userpac" #userpac="ngModel" [(ngModel)]="receta.userpac">
+        <ng-container  *ngFor="let user of users">
+            <option selected *ngIf="user.id == cita.userpac"  value="{{user.id}}"><p >{{user.name}} {{user.surname}}</p></option>
+        </ng-container >
+      </select>
+    </p>
+
+
+    <p>
+      <label for="descripcion">Descripción Sintomas Paciente</label>
+      <textarea class="form-control" name="descripcion" #descripcion="ngModel" [(ngModel)]="receta.descripcion">
+      </textarea>
+    </p>
+
+  
+
+
+
+    <input type="submit" value="Guardar" class="btn btn-success">
+  </form>
+  <hr>
+
+
+
+
+
+
+<div class="col-md-12" *ngIf="identity.role != 'admin'">
+  
+  <h2>Receta</h2>
+  <br/>
+  <table class="table table-hover table-stripped" id="recetas-list" >
+      <tr>
+          <th>Paciente</th>
+          <th> Doctor</th>
+          <th> Descripción</th>
+          <th>Medicamentos</th>
+          <th>Fecha</th>
+          <th>Acciones</th>
+      </tr>
+      <tr *ngFor="let receta of recetas">
+
+          <ng-container *ngIf="receta.citad == cita.id">
+
+              <ng-container>
+                  <td>
+                    <ng-container  *ngFor="let user of users">
+                      <ng-container *ngIf="user.id == receta.userpac">
+                        {{user.name}} {{user.surname}}
+                      </ng-container>
+                    </ng-container>
+                  </td>
+                  <td>
+                    <ng-container  *ngFor="let user of users">
+                      <ng-container *ngIf="user.id == receta.userdoc">
+                        {{user.name}} {{user.surname}}
+                      </ng-container>
+                    </ng-container>
+                  </td>
+                  <td>
+                    {{receta.descripcion}}
+                  </td>
+                  <td>
+                    <ng-container  *ngFor="let recmed of recmeds">
+                      <ng-container *ngIf="recmed.recetad == receta.id">
+                        
+                        <ng-container  *ngFor="let medicamento of medicamentos">
+                          <ng-container *ngIf="recmed.medicamentod == medicamento.id">
+                            {{medicamento.tittle}} 
+                          </ng-container>
+                        </ng-container>
+                        {{recmed.cantidad}} gr
+                        <button (click)="deleteRecmed(recmed.id)" class="btn btn-danger">Eliminar</button>
+                        <br>
+                      </ng-container>
+                    </ng-container>
+                  </td>
+                  <td>
+                    {{receta.created_at}}
+                  </td>
+                  <td>
+                    <a [routerLink]="['/editar-receta', receta.id]" class="btn btn-warning">Editar</a>
+                  </td>
+              </ng-container>
+        
+          </ng-container>
+        
+
+      </tr>
+  </table>
+</div>
+
+<hr>
+<div>
+    <form #RecmedNew="ngForm" (ngSubmit)="onSubmitRM(recmedNew)" class="col-md-8" *ngIf="identity.role != 'paciente'">
+        <h3>Añadir Medicamentos</h3>
+        <p>
+          <label for="recetad">Receta</label>
+          <select class="form-control" name="recetad" #recetad="ngModel" [(ngModel)]="recmed.recetad">
+              <ng-container *ngFor="let receta of recetas">
+                  <ng-container *ngIf="receta.citad == cita.id">
+                    <option selected value="{{receta.id}}"><p >{{receta.descripcion}}</p></option>
+                  </ng-container>
+              </ng-container>
+          </select>
+        </p>
+      
+        <p>
+          <label for="medicamentod">Seleccionar medicamentos</label>
+          <select class="form-control" name="medicamentod" #medicamentod="ngModel" [(ngModel)]="recmed.medicamentod">
+            <ng-container  *ngFor="let medicamento of medicamentos">
+                <option value="{{medicamento.id}}"><p >{{medicamento.tittle}} </p></option>
+            </ng-container >
+          </select>
+        </p>
+      
+        <p>
+          <label for="cantidad">Cantidad</label>
+          <input type="number" name="cantidad" #cantidad="ngModel" [(ngModel)]="recmed.cantidad" class="form-control" required />
+
+        </p>
+      
+        <input type="submit" value="Guardar" class="btn btn-success">
+      </form>
+</div>
+
+<ng-template #Meds>
+  
+</ng-template>

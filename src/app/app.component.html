@@ -1,21 +1,117 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<!--Cabecera-->
+<header id="header">
 
-<router-outlet></router-outlet>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark rounded-bottom" style="background-color:#1974d2">
+        <img src="http://cdn.onlinewebfonts.com/svg/download_194010.png" width="40" height="40" class="d-inline-block align-top" alt="SP">
+        <a class="navbar-brand" href="#">Dr. Chamber</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" [routerLink]="['']">Inicio</a>
+            </li>
+            <!--usuario admin-->
+            <li class="nav-item " *ngIf="identity"> 
+              <a class="nav-link" [routerLink]="['crear-medicamento']" *ngIf="identity.role == 'admin'">Crear Medicamento</a>
+            </li>
+            <li class="nav-item " *ngIf="identity">
+              <a class="nav-link" [routerLink]="['crear-especialidad']" *ngIf="identity.role == 'admin'">Crear Especialidad</a>
+            </li>
+            <li class="nav-item " *ngIf="identity">
+              <a class="nav-link" [routerLink]="['crear-matricula']" *ngIf="identity.role == 'admin'">Crear Matricula</a>
+            </li>
+            <!--usuarios paciente-->
+            <li class="nav-item " *ngIf="identity">
+              <a class="nav-link" [routerLink]="['citas']" *ngIf="identity.role == 'paciente'">Citas</a>
+            </li>
+            <li class="nav-item " *ngIf="identity">
+              <a class="nav-link" [routerLink]="['/paciente', identity.sub]" *ngIf="identity.role == 'paciente'">Recetas</a>
+            </li>
+            <!--usuarios doctor-->
+            <li class="nav-item " *ngIf="identity">
+              <a class="nav-link" [routerLink]="['pacientes']" *ngIf="identity.role == 'doctor'">Pacientes</a>
+            </li>
+            <li class="nav-item " *ngIf="identity">
+              <a class="nav-link" [routerLink]="['citas']" *ngIf="identity.role == 'doctor'">Citas</a>
+            </li>
+            <li class="nav-item " *ngIf="identity">
+              <a class="nav-link" [routerLink]="['calendar']" *ngIf="identity.role == 'doctor'">Calendario</a>
+            </li>
+            
+          </ul>
+
+          <!--usuarios no identificados-->
+      <ul class="nav navbar-nav navbar-right" *ngIf="!identity">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]= "['login']">Identificate</a>
+          </li>
+          
+        </ul>
+  
+        <!--usuarios identificados-->
+        <ul class="nav navbar-nav navbar-right" *ngIf="identity">
+            <li class="nav-item">
+              
+              <ng-container *ngIf="identity.role=='paciente'">
+                <a class="nav-link" >
+                  <span class="glyphicon glyphicon-bell"></span><span class="badge badge-danger">{{ citascounter }}</span>
+                </a>
+              </ng-container>
+              
+              
+            </li>
+            <li class="nav-item" *ngIf="identity.role == 'admin'" >
+              <a class="nav-link"  [routerLink]= "['register']" >Registro</a>
+            </li>
+  
+            
+            <li class="nav-item active">
+              <a class="nav-link"  *ngIf="identity.role == 'admin'">
+                Amo y señor {{identity.name + ' ' + identity.surname}}
+              </a>
+              
+              <a class="nav-link"  *ngIf="identity.role == 'paciente'">
+                Ps. {{identity.name + ' ' + identity.surname}}
+              </a>
+            
+              <a class="nav-link"  *ngIf="identity.role == 'doctor'">
+                Dc. {{identity.name + ' ' + identity.surname}}
+              </a>
+            </li>
+  
+            <li class="nav-item">
+              <a class="nav-link"  [routerLink]= "['logout', 1]">
+                <span class="glyphicon glyphicon-log-out"></span>
+                Salir</a>
+            </li>
+          </ul>
+          
+        </div>
+      </nav>
+      
+  
+</header>
+
+
+<!--Contenido-->
+<br><br><br>
+<div class="container">
+  <br>
+    <div class="row justify-content-between">     
+      <div class="card col-md-10 col-lg-12  rounded" style="background-color:#1974d2">
+        <br>
+          <div class="card col-md-10 col-lg-12  rounded" style="background-color:#e9edf6">
+            <br>
+            <router-outlet></router-outlet>
+            
+          </div>
+      </div>
+      
+      
+    </div>
+</div>
+
+

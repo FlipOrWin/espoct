@@ -1,0 +1,56 @@
+<h2>Historial medico de {{user.name}} {{user.surname}}</h2>
+
+<ng-container *ngFor="let cita of citas">
+  <ng-container *ngIf="user.id == cita.userpac">
+    <ng-container *ngFor="let receta of recetas">
+      <ng-container *ngIf="cita.id == receta.citad">
+      </ng-container>
+      
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+<h2>Recetas</h2>
+<table class="table table-hover table-stripped" id="recetas-list" >
+    <tr>
+        <th>Descripción</th>
+        <th>Medicamentos</th>
+        <th>Fecha</th>
+    </tr>
+    <ng-container *ngFor="let cita of citas">
+        <ng-container *ngIf="user.id == cita.userpac">
+          <tr *ngFor="let receta of recetas">
+          
+              <ng-container *ngIf="receta.citad == cita.id">
+              
+                  <ng-container>
+                      <td>
+                        <a [routerLink]="['/receta', receta.id]">
+                          {{receta.descripcion}}
+                        </a>
+                      </td>
+                      <td>
+                        <ng-container  *ngFor="let recmed of recmeds">
+                          <ng-container *ngIf="recmed.recetad == receta.id">
+
+                            <ng-container  *ngFor="let medicamento of medicamentos">
+                              <ng-container *ngIf="recmed.medicamentod == medicamento.id">
+                                {{medicamento.tittle}} 
+                              </ng-container>
+                            </ng-container>
+                            {{recmed.cantidad}} gr
+                            <br>
+                          </ng-container>
+                        </ng-container>
+                      </td>
+                      <td>
+                        {{receta.created_at}}
+                      </td>
+                  </ng-container>
+                
+              </ng-container>
+          
+          </tr>
+      </ng-container>
+    </ng-container>
+</table>

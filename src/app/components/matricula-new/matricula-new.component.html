@@ -1,0 +1,32 @@
+<div class="col-md-12">
+    <h2>{{ page_title }}</h2>
+  
+    <div class="alert alert-success" *ngIf="status_matricula == 'success'">
+      La matricula se guardo correctamente!!
+    </div>
+  
+    <div class="alert alert-danger" *ngIf="status_matricula == 'error'">
+      La matricula no se guardo correctamente!! Intente de nuevo
+    </div> 
+    
+    <form #matriculaNew="ngForm" (ngSubmit)="onSubmit(matriculaNew)" class="col-md-5">
+      <p>
+        <label for="useid">Doctor</label>
+        <input type="text" name="useid" #useid="ngModel" [(ngModel)]="matricula.useid" class="form-control" required />
+        <span *ngIf="!useid.valid && useid.touched">
+          El Doctor no es válido!!
+        </span> 
+      </p>
+      <p>
+        <label for="especid">Especialidad</label>
+        <input type="text" name="especid" #especid="ngModel" [(ngModel)]="matricula.especid" class="form-control" required />
+        <span *ngIf="!especid.valid && especid.touched">
+          La especialidad no es válido!!
+        </span> 
+      </p>
+  
+      <!--Botoon-->
+      <input type="submit" value="Guardar" class="btn btn-success">
+    </form>
+  </div> 
+  

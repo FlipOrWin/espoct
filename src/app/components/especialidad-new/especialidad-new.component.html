@@ -1,0 +1,24 @@
+<div class="col-md-12">
+  <h2>{{ page_title }}</h2>
+
+  <div class="alert alert-success" *ngIf="status_especialidad == 'success'">
+    La especialidad se guardo correctamente!!
+  </div>
+
+  <div class="alert alert-danger" *ngIf="status_especialidad == 'error'">
+    La especialidad no se guardo correctamente!! Intente de nuevo
+  </div> 
+  
+  <form #especialidadNew="ngForm" (ngSubmit)="onSubmit(especialidadNew)" class="col-md-5">
+    <p>
+      <label for="tittle">Titulo</label>
+      <input type="text" name="tittle" #tittle="ngModel" [(ngModel)]="especialidad.tittle" class="form-control" required />
+      <span *ngIf="!tittle.valid && tittle.touched">
+        El titulo no es válido!! 
+      </span>
+    </p> 
+
+    <!--Botoon-->
+    <input type="submit" value="Guardar" class="btn btn-success">
+  </form>
+</div>

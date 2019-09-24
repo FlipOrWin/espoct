@@ -1,0 +1,52 @@
+
+<div class="col-md-12" *ngIf="identity.role == 'admin'"> 
+    <h2>{{title}}</h2>
+
+    <div class="alert alert-success" *ngIf="status == 'success'">
+        El registro se completo con exito, <a [routerLink]= "['/login']">identificate aquí</a>
+    </div>
+    
+    <div class="alert alert-danger" *ngIf="status == 'error'">
+        El registro no se a completo con exito!!
+    </div>
+
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)" class="col-md-5">
+        <p>
+            <label for="name"> Nombre</label>
+            <input type="text" name="name" #name="ngModel" [(ngModel)]="user.name" class="form-control" required />
+            <span *ngIf="!name.valid && name.touched">
+                El nombre es obligatorio
+            </span>
+        </p>
+        <p>
+            <label for="surname"> Apellido</label>
+            <input type="text" name="surname" #surname="ngModel" [(ngModel)]="user.surname" class="form-control" required />
+            <span *ngIf="!surname.valid && surname.touched">
+                El Apellido es obligatorio
+            </span>
+        </p>
+        <p>
+            <label for="email"> Correo electrónico</label>
+            <input type="email" name="email" #email="ngModel" [(ngModel)]="user.email" class="form-control" required />
+            <span *ngIf="!email.valid && email.touched">
+                El correo es obligatorio
+            </span>
+        </p>
+        <p>
+            <label for="password"> Contraseña</label>
+            <input type="password" name="password" #password="ngModel" [(ngModel)]="user.password" class="form-control" required />
+            <span *ngIf="!password.valid && password.touched">
+                La contraseña es obligatorio
+            </span>
+        </p>
+        <p>
+            <label for="role">Tipo de usuario</label>
+            <select class="form-control" name="role" #role="ngModel" [(ngModel)]="user.role">
+                <option value="doctor">Doctor</option>
+                <option value="paciente">Paciente</option>
+                <option value="admin">Administrador</option>
+            </select>
+          </p>
+        <input type="submit" value="Registrarme" class="btn btn-success" />
+    </form>
+</div>

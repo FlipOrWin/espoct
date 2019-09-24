@@ -1,0 +1,13 @@
+<div>
+  <h1>{{car.title}}</h1>
+  <strong *ngIf="car.status == 'true'">Este vehiculo está a la venta</strong>
+  <strong *ngIf="car.status == 'false'">Este vehiculo no está a la venta</strong>
+  <p>
+    {{car.price}} $ 
+  </p>
+  <p>
+    {{car.description}}
+  </p>
+</div> 
+
+ 

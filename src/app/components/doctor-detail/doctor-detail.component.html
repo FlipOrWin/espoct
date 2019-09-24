@@ -1,0 +1,90 @@
+<div>
+  <h1>
+
+      <ng-container  *ngFor="let especialidad of especialidades">
+          <ng-container *ngIf="especialidad.id == matricula.especid">{{ especialidad.tittle }} </ng-container>
+      
+         
+      </ng-container > 
+      <ng-container  *ngFor="let user of users">
+          <ng-container *ngIf="user.id == matricula.useid">{{user.name}} {{user.surname}}</ng-container>
+      
+        
+      </ng-container > 
+      
+  </h1>
+  <div class="alert alert-success" *ngIf="status_cita == 'success'">
+      La cita se guardo correctamente!!
+    </div>
+  
+    <div class="alert alert-danger" *ngIf="status_cita == 'error'">
+      La cita no se guardo correctamente!! Intente de nuevo
+    </div>
+</div> 
+
+
+
+<hr>
+<h2 *ngIf="identity.role != 'doctor'">Agendar Cita</h2>
+
+<form #citaNew="ngForm" (ngSubmit)="onSubmit(citaNew)" class="col-md-5" *ngIf="identity.role != 'doctor'">
+  
+
+  <p>
+    <label for="userdoc">Doctor</label>
+    <select class="form-control" name="userdoc" #userdoc="ngModel" [(ngModel)]="cita.userdoc">
+      <ng-container  *ngFor="let user of users">
+          <option selected *ngIf="user.id == matricula.useid"  value="{{user.id}}"><p >{{user.name}} {{user.surname}}</p></option>
+      </ng-container >
+    </select>
+  </p>
+  
+  <p>
+    <label for="start">Fecha</label>
+    <input class="form-control" type="date" name="start" #start="ngModel" [(ngModel)]="cita.start"/>
+  </p>
+
+  <p>
+    <label for="title">Hora</label>
+    <select class="form-control" name="title" #title="ngModel" [(ngModel)]="cita.title">
+      
+      <option value="00:00:00"><p >00:00</p></option>
+      <option value="01:00:00"><p >01:00</p></option>
+      <option value="02:00:00"><p >02:00</p></option>
+      <option value="03:00:00"><p >03:00</p></option>
+      <option value="04:00:00"><p >04:00</p></option>
+      <option value="05:00:00"><p >05:00</p></option>
+      <option value="06:00:00"><p >06:00</p></option>
+      <option value="07:00:00"><p >07:00</p></option>
+      <option value="08:00:00"><p >08:00</p></option>
+      <option value="09:00:00"><p >09:00</p></option>
+      <option value="10:00:00"><p >10:00</p></option>
+      <option value="11:00:00"><p >11:00</p></option>
+      <option value="12:00:00"><p >12:00</p></option>
+      <option value="13:00:00"><p >13:00</p></option>
+      <option value="14:00:00"><p >14:00</p></option>
+      <option value="15:00:00"><p >15:00</p></option>
+      <option value="16:00:00"><p >16:00</p></option>
+      <option value="17:00:00"><p >17:00</p></option>
+      <option value="18:00:00"><p >18:00</p></option>
+      <option value="19:00:00"><p >19:00</p></option>
+      <option value="20:00:00"><p >20:00</p></option>
+      <option value="21:00:00"><p >21:00</p></option>
+      <option value="22:00:00"><p >22:00</p></option>
+      <option value="23:00:00"><p >23:00</p></option>
+      
+    </select>
+  </p>
+  
+
+  
+  <input type="submit" value="Guardar" class="btn btn-success">
+</form>
+
+
+<script>
+  var app = angular.module('myApp', []);
+  app.controller('myCtrl', function($scope) {
+      $scope.myVar = "{especialidad.id}";
+  });
+  </script>

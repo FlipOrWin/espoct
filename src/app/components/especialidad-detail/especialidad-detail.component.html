@@ -1,0 +1,67 @@
+<div>
+  <h1> {{ especialidad.id }}  {{ especialidad.tittle }} </h1>
+  <div class="alert alert-success" *ngIf="status_matricula == 'success'">
+      La especialidad se guardo correctamente!!
+    </div>
+  
+    <div class="alert alert-danger" *ngIf="status_matricula == 'error'">
+      La especialidad no se guardo correctamente!! Intente de nuevo
+    </div>
+</div> 
+
+<table class="table table-hover table-stripped" id="matriculas-list" >
+    <tr>
+        <th class="col-md-7"> Doctor</th>
+    </tr>
+    <tr *ngFor="let matricula of matriculas">
+        <td class="col-md-7" *ngIf="matricula.especid==especialidad.id">
+            <a [routerLink]="['/matricula', matricula.id]">{{matricula.useid}}
+                <ng-container *ngFor="let user of users">
+                    <ng-container *ngIf="user.id==matricula.useid">
+                        {{user.name}} {{user.surname}}
+                    </ng-container>
+                     
+                </ng-container>
+                
+            </a>
+            <p></p>
+        </td>
+
+    </tr>
+</table>
+
+
+
+<hr>
+<h2 *ngIf="identity.role == 'admin'">Añadir Doctor</h2>
+ 
+<form #matriculaNew="ngForm" (ngSubmit)="onSubmit(matriculaNew)" class="col-md-5" *ngIf="identity.role == 'admin'">
+  
+
+  <p>
+    <label for="useid">Doctor</label>
+    <select class="form-control" name="useid" #useid="ngModel" [(ngModel)]="matricula.useid">
+      <ng-container  *ngFor="let user of users">
+          <option *ngIf="user.role == 'doctor'"  value="{{user.id}}"><p >{{user.name}} {{user.surname}}</p></option>
+      </ng-container >
+    </select>
+  </p>
+  
+  <p>
+    <label for="especid">Especialidad</label>
+    <select class="form-control" name="especid" #especid="ngModel" [(ngModel)]="matricula.especid">
+          <option  value="{{especialidad.id}}" selected><p >{{especialidad.id}} {{especialidad.tittle}}</p></option>
+    </select>
+  </p>
+  
+
+  <!--Botoon-->
+  <input type="submit" value="Guardar" class="btn btn-success">
+</form>
+
+<script>
+  var app = angular.module('myApp', []);
+  app.controller('myCtrl', function($scope) {
+      $scope.myVar = "{especialidad.id}";
+  });
+  </script>

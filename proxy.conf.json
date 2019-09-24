@@ -1,0 +1,7 @@
+{
+    "/api/*": {
+        "target": "http://localhost/api-laravel/public",
+        "secure": false,
+        "changeOrigin": true
+    }
+} 

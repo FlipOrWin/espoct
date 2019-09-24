@@ -1,0 +1,84 @@
+<br><br><br>
+<div class="container bg-success rounded">
+    <br>
+    <div class="jumbotron">
+        <h2 *ngIf="identity.role=='paciente'"> Paciente {{identity.name}} {{identity.surname}} </h2>
+        <table class="table table-hover table-stripped" id="citas-list" *ngIf="identity.role == 'paciente'">
+            <tr>
+                <th class="col-md-6"> Doctor</th>
+                <th class="col-md-2"> Fecha</th>
+                <th class="col-md-2"> Hora</th>
+                <th class="col-md-2"> Status</th>
+
+            </tr>
+            <ng-container *ngFor="let cita of citas">
+              <ng-container *ngIf="cita.title==identity.sub">
+
+                <tr *ngIf="cita.title==identity.sub">
+                    <td class="col-md-2">
+
+                            <ng-container *ngFor="let user of users">
+                                <ng-container *ngIf="user.id==cita.userdoc">
+                                    {{user.name}} {{user.surname}}
+                                </ng-container>
+                            </ng-container>
+                    </td>
+                    <td class="col-md-2">
+                        {{cita.start}}
+                    </td>
+                    <td class="col-md-2">
+                        {{cita.title}}
+                    </td>
+                    <td class="col-md-2">
+                        {{cita.status}}
+                    </td>
+                
+                </tr>
+              </ng-container>
+            </ng-container>
+        </table>
+
+        <h2 *ngIf="identity.role=='doctor'"> Doctor {{identity.name}} {{identity.surname}} </h2>
+        <table class="table table-hover table-stripped" id="citas-list" *ngIf="identity.role == 'doctor'">
+            <tr>
+                <th class="col-md-4"> Paciente</th>
+                <th class="col-md-2"> Fecha</th>
+                <th class="col-md-2"> Hora</th>
+                <th class="col-md-2"> Status</th>
+                <th class="col-md-2"> Acciones</th>
+
+            </tr>
+            <ng-container *ngFor="let cita of citas">
+              <ng-container *ngIf="cita.userdoc==identity.sub">
+
+                <tr *ngIf="cita.userdoc==identity.sub">
+                    <td class="col-md-2">
+                        <a [routerLink]="['/cita', cita.id]">
+                            <ng-container *ngFor="let user of users">
+                                <ng-container *ngIf="user.id==cita.title">
+                                    {{user.name}} {{user.surname}}
+                                </ng-container>
+                            </ng-container>
+                        </a>
+                    </td>
+                    <td class="col-md-2">
+                        <a [routerLink]="['/cita', cita.id]">{{cita.start}}</a>
+                    </td>
+                    <td class="col-md-2">
+                        <a [routerLink]="['/cita', cita.id]">{{cita.hora}}</a>
+                    </td>
+                    <td class="col-md-2">
+                        <a [routerLink]="['/cita', cita.id]">{{cita.status}}</a>
+                    </td>
+                    <td>
+                        <a [routerLink]="['/editar-cita', cita.id]" class="btn btn-warning">Aprobar/Cancelar</a>
+                    </td>
+                
+                </tr>
+              </ng-container>
+            </ng-container>
+        </table>
+    </div>
+    <br>
+</div>
+

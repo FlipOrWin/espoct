@@ -1,0 +1,31 @@
+<div id="content" #content>
+    <h4>Fecha: {{receta.created_at}}</h4>
+    <ng-container *ngFor="let user of users">
+      <ng-container *ngIf="user.id == receta.userdoc">
+        <h2>Doctor: {{user.name}} {{user.surname}}</h2>
+      </ng-container>
+      <ng-container *ngIf="user.id == receta.userpac">
+        <h2>Paciente: {{user.name}} {{user.surname}}</h2>
+      </ng-container>
+    </ng-container>
+    
+    <h2>Sintomas: {{receta.descripcion}} </h2>
+    
+    <h3>Medicamentos:</h3>
+    <h4>
+      <ng-container  *ngFor="let recmed of recmeds">
+        <ng-container *ngIf="recmed.recetad == receta.id">
+          <ng-container  *ngFor="let medicamento of medicamentos">
+            <ng-container *ngIf="recmed.medicamentod == medicamento.id">
+              {{medicamento.tittle}} 
+            </ng-container>
+          </ng-container>
+          {{recmed.cantidad}} gr
+          <br>
+        </ng-container>
+      </ng-container>
+    </h4>
+
+</div>
+
+<button (click)="downloadPDF()">Descargar Receta</button>

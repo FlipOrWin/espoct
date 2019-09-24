@@ -1,0 +1,30 @@
+<div class="col-md-12">
+  <h2>{{ page_title }}</h2>
+
+  <div class="alert alert-success" *ngIf="status_wea == 'success'">
+    El wea se guardo correctamente!!
+  </div>
+
+  <div class="alert alert-danger" *ngIf="status_wea == 'error'">
+    El wea no se guardo correctamente!! Intente de nuevo
+  </div>
+  <form #weaNew="ngForm" (ngSubmit)="onSubmit(weaNew)" class="col-md-5">
+    <p>
+      <label for="usar">Titulo</label>
+      <input type="number" name="usar" #usar="ngModel" [(ngModel)]="wea.usar" class="form-control" required />
+      <span *ngIf="!usar.valid && usar.touched">
+        El titulo no es válido!!
+      </span> 
+    </p>
+    <p>
+      <label for="espec">Titulo</label>
+      <input type="number" name="espec" #espec="ngModel" [(ngModel)]="wea.espec" class="form-control" required />
+      <span *ngIf="!espec.valid && espec.touched">
+        El titulo no es válido!!
+      </span> 
+    </p>
+
+    <!--Botoon-->
+    <input type="submit" value="Guardar" class="btn btn-success">
+  </form>
+</div>

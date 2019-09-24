@@ -1,0 +1,152 @@
+<div class="col-md-12" >
+    <h2>{{title}} </h2>
+    <br/>
+    <table class="table table-hover table-stripped" id="cars-list" *ngIf="identity.role == 'admin'">
+        <tr>
+            <th class="col-md-7"> Vehiculo</th>
+            <th>Precio</th>
+            <th> ¿A la venta?</th>
+            <th> Acciones</th>
+        </tr>
+        <tr *ngFor="let car of cars">
+            <td class="col-md-7">
+                <a [routerLink]="['/coche', car.id]">{{car.title}}</a>
+            </td>
+            <td>
+                {{car.price}}
+            </td>
+            <td>
+                <span *ngIf="car.status == 'true'">
+                    Si
+                </span>
+                <span *ngIf="car.status == 'false'">
+                    No
+                </span>
+            </td>
+            <td>
+                <a [routerLink]="['/editar-coche', car.id]" class="btn btn-warning">Editar</a>
+                <a (click)="deleteCar(car.id)" class="btn btn-danger">Borrar</a>
+            </td>
+
+        </tr>
+    </table>
+    
+    <table class="table table-hover table-stripped" id="especialidades-list" *ngIf="identity.role != 'doctor'">
+        <tr>
+            <th class="col-md-7"> Especialidad</th>
+            <th *ngIf="identity.role == 'admin'"> Acciones</th>
+        </tr>
+        <tr *ngFor="let especialidad of especialidades">
+            <td class="col-md-7">
+                <a [routerLink]="['/especialidad', especialidad.id]">{{especialidad.tittle}}</a>
+            </td>
+            <td *ngIf="identity.role == 'admin'"> 
+                <a [routerLink]="['/editar-especialidad', especialidad.id]" class="btn btn-warning">Editar</a>
+                <a (click)="deleteEspecialidad(especialidad.id)" class="btn btn-danger">Borrar</a>
+            </td>
+
+        </tr>
+    </table>
+
+    <table class="table table-hover table-stripped" id="medicamentos-list" *ngIf="identity.role == 'admin'">
+        <tr>
+            <th class="col-md-7"> Medicamento</th>
+            <th> Acciones</th>
+        </tr>
+        <tr *ngFor="let medicamento of medicamentos">
+            <td class="col-md-7">
+                <a [routerLink]="['/medicamento', medicamento.id]">{{medicamento.tittle}}</a>
+            </td>
+            <td>
+                <a [routerLink]="['/editar-medicamento', medicamento.id]" class="btn btn-warning">Editar</a>
+                <a (click)="deleteMedicamento(medicamento.id)" class="btn btn-danger">Borrar</a>
+            </td>
+
+        </tr>
+    </table>
+
+    <h4 *ngIf="identity.role == 'admin'">Matriculas</h4>
+    <table class="table table-hover table-stripped" id="matriculas-list" *ngIf="identity.role == 'admin'">
+        <tr>
+            <th class="col-md-7"> Doctor</th>
+            <th> Especialidad</th>
+            <th> Acciones</th>
+        </tr>
+        <tr *ngFor="let matricula of matriculas">
+            <td class="col-md-7">
+                <a >{{matricula.useid}}
+                    <ng-container *ngFor="let user of users">
+                        <ng-container *ngIf="user.id==matricula.useid">
+                            {{user.name}} {{user.surname}}
+                        </ng-container>
+                         
+                    </ng-container>
+                    
+                </a>
+            </td>
+            <td >
+                <a >{{matricula.especid}}
+                    <ng-container *ngFor="let especialidad of especialidades">
+                        <ng-container *ngIf="especialidad.id==matricula.especid">
+                            {{especialidad.tittle}} 
+                        </ng-container>
+                        
+                    </ng-container>
+                    
+                </a>
+            </td>
+            <td >
+                <a (click)="deleteMatricula(matricula.id)" class="btn btn-danger">Borrar</a>
+            </td>
+
+        </tr>
+    </table>
+
+    <h3 *ngIf="identity.role == 'admin'">Citas</h3>
+    <table class="table table-hover table-responsive table-stripped" id="citas-list" *ngIf="identity.role == 'admin'">
+        <tr>
+            <th class="col-md-2"> Paciente</th>
+            <th class="col-md-2"> Doctor</th>
+            <th class="col-md-2"> Fecha</th>
+            <th class="col-md-2"> Hora</th>
+            <th class="col-md-2"> Status</th>
+            <th class="col-md-2"> Acciones</th>
+        </tr>
+        <tr *ngFor="let cita of citas"> 
+            <td class="col-md-2">
+                <a [routerLink]="['/cita', cita.id]">
+                    {{cita.title}}
+                    <ng-container *ngFor="let user of users">
+                        <ng-container *ngIf="user.id==cita.title">
+                            {{user.name}} {{user.surname}}
+                        </ng-container>
+                    </ng-container>
+                </a>
+            </td>
+            <td class="col-md-2">
+                <a [routerLink]="['/cita', cita.id]">
+                    {{cita.userdoc}}
+                    <ng-container *ngFor="let user of users">
+                        <ng-container *ngIf="user.id==cita.userdoc">
+                            {{user.name}} {{user.surname}}
+                        </ng-container>
+                    </ng-container>
+                </a>
+            </td>
+            <td class="col-md-2">
+                <a [routerLink]="['/cita', cita.id]">{{cita.start}}</a>
+            </td>
+            <td class="col-md-2">
+                <a [routerLink]="['/cita', cita.id]">{{cita.hora}}</a>
+            </td>
+            <td class="col-md-2">
+                <a [routerLink]="['/cita', cita.id]">{{cita.status}}</a>
+            </td>
+            <td class="col-md-2">
+                <a [routerLink]="['/editar-cita', cita.id]" class="btn btn-warning">Editar</a>
+                <a (click)="deleteCita(cita.id)" class="btn btn-danger">Borrar</a>
+            </td>
+
+        </tr>
+    </table>
+</div>
